@@ -171,7 +171,7 @@ const renderTimerOverlay = (currentPhase, exercise) => {
     `;
 
     overlay.innerHTML = `
-        <h2 id="overlay-ex-name" style="font-size: 2rem;">${exercise.name}</h2>
+        <h2 id="overlay-ex-name" style="font-size: 2rem; text-align: center">${exercise.name}</h2>
         <p id="overlay-status" style="font-size: 1.5rem; color: #aaa;">Приготовься</p>
         <h1 id="overlay-timer" style="font-size: 30vw;">5</h1>
         <p id="overlay-sets" style="font-size: 1.5rem;">Подход: 1 / ${currentPhase.sets}</p>
