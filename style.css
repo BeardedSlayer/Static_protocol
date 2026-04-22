@@ -1,0 +1,223 @@
+:root {
+    --bg-color: #050505;
+    --surface-color: #111111;
+    --accent-color: #00ff41;
+    --text-primary: #ffffff;
+    --text-secondary: #888888;
+    --sidebar-width: 260px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 100;
+    border-bottom: 1px solid #222;
+}
+
+.burger-btn {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.burger-btn span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: var(--accent-color);
+    transition: 0.3s;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--surface-color);
+    position: fixed;
+    top: 0;
+    left: calc(var(--sidebar-width) * -1);
+    height: 100vh;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 200;
+    padding: 80px 20px 20px;
+    border-right: 1px solid #222;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar.active {
+    left: 0;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+}
+
+.sidebar-btn {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid #222;
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    transition: 0.2s;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar-btn:hover, .sidebar-btn.active {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background: rgba(0, 255, 65, 0.05);
+}
+
+.main-content {
+    padding: 80px 20px 40px;
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.exercise-card {
+    background: var(--surface-color);
+    padding: 30px;
+    border-radius: 2px;
+    border: 1px solid #222;
+    margin-top: 30px;
+}
+
+.exercise-card h2 {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    color: var(--accent-color);
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid #222;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.start-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--accent-color);
+    color: black;
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.start-btn:hover {
+    filter: brightness(1.2);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+}
+
+.progress-block {
+    display: flex;
+    justify-content: space-between;
+    background: #000;
+    padding: 20px;
+    border: 1px dashed #333;
+}
+
+.progress-block label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--accent-color);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+}
+
+input[type="checkbox"]:checked {
+    background: var(--accent-color);
+}
+
+input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: black;
+    position: absolute;
+    top: -2px; left: 2px;
+}
+
+.timer-overlay h1 {
+    font-family: 'Courier New', monospace;
+    font-weight: 900;
+    color: var(--accent-color);
+    text-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+}
+
+.overlay-bg {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 150;
+}
+
+.overlay-bg.active {
+    display: block;
+}
+
+.nav-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: var(--accent-color);
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.nav-btn:hover:not(:disabled) {
+    border-color: var(--accent-color);
+    background: rgba(0, 255, 65, 0.1);
+}
+
+.nav-btn:disabled {
+    opacity: 0.2;
+    cursor: default;
+}
