@@ -258,7 +258,7 @@ input[type="checkbox"]:checked::after {
 .module-card {
     background: #111;
     border: 1px solid #222;
-    padding: 30px;
+    padding: 20px;
     cursor: pointer;
     transition: 0.4s;
     display: flex;
@@ -286,7 +286,7 @@ input[type="checkbox"]:checked::after {
 
 .selector-grid {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     margin-top: 50px;
 }
 
