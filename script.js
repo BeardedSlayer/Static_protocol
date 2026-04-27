@@ -111,7 +111,7 @@ const renderDisciplineModule = () => {
             <div id="calendar-root"></div>
             
             <div id="discipline-logs" class="exercise-card" style="margin-top: 20px; display: none;">
-                <h3 id="selected-date" style="color: var(--accent-color); font-size: 0.9rem;"></h3>
+                <h3 id="selected-date" style="color: var(--accent-color); font-size: 0.9rem; display: flex; justify-content: center;"></h3>
                 <textarea class="log-input" id="log-input" placeholder="Введите отчет о состоянии системы..."></textarea>
                 <button id="save-log-btn" class="start-btn" style="margin-top: 10px;">SAVE_LOG</button>
             </div>
