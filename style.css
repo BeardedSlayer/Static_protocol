@@ -71,7 +71,7 @@ header {
 
 .sidebar.active {
     left: 0;
-    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar-btn {
@@ -179,7 +179,8 @@ input[type="checkbox"]:checked::after {
     content: '✓';
     color: black;
     position: absolute;
-    top: -2px; left: 2px;
+    top: -2px;
+    left: 2px;
 }
 
 .timer-overlay h1 {
@@ -192,9 +193,11 @@ input[type="checkbox"]:checked::after {
 .overlay-bg {
     display: none;
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
     z-index: 150;
 }
 
@@ -220,4 +223,148 @@ input[type="checkbox"]:checked::after {
 .nav-btn:disabled {
     opacity: 0.2;
     cursor: default;
+}
+
+.scanline {
+    width: 100%;
+    height: 2px;
+    background: var(--accent-color);
+    position: absolute;
+    top: 0;
+    box-shadow: 0 0 15px var(--accent-color);
+    animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+    0% {
+        top: 0;
+    }
+    100% {
+        top: 100%;
+    }
+}
+
+.terminal-text {
+    font-family: 'Courier New', monospace;
+    color: var(--accent-color);
+    padding: 20px;
+    font-size: 0.9rem;
+}
+
+.module-card {
+    background: #111;
+    border: 1px solid #222;
+    padding: 40px;
+    cursor: pointer;
+    transition: 0.4s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.module-card:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+    transform: translateY(-5px);
+}
+
+#module-selector {
+    display: none;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+#module-selector.active {
+    display: flex;
+}
+
+.selector-grid {
+    display: flex;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.glitch {
+    font-size: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+    text-shadow: 0.05em 0 0 rgba(0, 255, 65, 0.75),
+    -0.025em -0.05em 0 rgba(0, 255, 65, 0.75),
+    0.025em 0.05em 0 rgba(0, 255, 65, 0.75);
+}
+
+#os-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--bg-color);
+}
+
+#boot-screen, #module-selector {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#boot-screen.active, #module-selector.active {
+    display: flex;
+}
+
+.app-shell {
+    flex-grow: 1;
+    display: none;
+    width: 100%;
+}
+
+header {
+    flex-shrink: 0;
+}
+
+#calendar {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background: var(--surface-color);
+    border-radius: 4px;
+    border: 1px solid #222;
+    min-height: 300px;
+}
+
+.vanilla-calendar {
+    background-color: transparent !important;
+    border: none !important;
+    margin: 15px auto;
+}
+
+.log-input {
+    border: 1px solid rgb(0, 255, 65);
+    padding: 5px;
+    margin-top: 10px;
+    background-color: black;
+    font-size: 1.1em;
+    color: #7e877e;
+}
+
+.label {
+    color: #7e877e;
+    margin-top: 10px;
+}
+
+.tech-text {
+    font-family: 'Courier New', monospace;
+    margin: 5px 0;
+}
+
+.progress-block h3 {
+    color: #7e877e;
 }

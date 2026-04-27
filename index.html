@@ -1,14 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Static_protocol</title>
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/build/vanilla-calendar.min.css">
+
 </head>
 <body style=" box-sizing: border-box; margin: 0; padding: 0;">
 
+<div id="os-container">
+    <div id="boot-screen" class="active">
+        <div class="scanline"></div>
+        <div class="terminal-text" id="boot-logs"></div>
+    </div>
 
+    <div id="module-selector">
+        <h1 class="glitch" data-text="SELECT_PROTOCOL">SELECT_PROTOCOL</h1>
+        <div class="selector-grid">
+            <button onclick="switchModule('workout')" class="module-card">
+                <span class="icon">⚔️</span>
+                <span class="label">STATIC_PROTOCOL</span>
+            </button>
+            <button onclick="switchModule('discipline')" class="module-card">
+                <span class="icon">🛡️</span>
+                <span class="label">DISCIPLINE_ANCHOR</span>
+            </button>
+        </div>
+    </div>
+
+    <main id="active-module-view">
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/build/vanilla-calendar.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
