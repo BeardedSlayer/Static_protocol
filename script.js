@@ -105,7 +105,7 @@ const playBeep = (frequency = 440, duration = 0.1) => {
 
     oscillator.type = 'sine';
     oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
-    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(0.7, audioCtx.currentTime);
 
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
@@ -123,7 +123,7 @@ const appState = {
         exercises: [
             {id: 1, name: "ПРИСЕД У СТЕНЫ", tech: "Скользи по стене... Колени 90 градусов..."},
             {id: 2, name: "ПЛАНКА", tech: "Локти под плечами... Сожми ягодицы..."},
-            {id: 3, name: "СУПЕРМЕН", tech: "Ляг лицом вниз... Руки вперёд..."},
+            {id: 3, name: "ОБРАТНАЯ ПЛАНКА", tech: "Упор в пятки, носки на себя... Руки за спиной..."},
             {id: 4, name: "УДЕРЖАНИЕ В ОТЖИМАНИИ", tech: "Опустись на половину... Замри..."},
             {id: 5, name: "УДЕРЖАНИЕ В ПОДТЯГИВАНИИ", tech: "Подбородок над перекладиной... Держись..."}
         ],
@@ -274,11 +274,11 @@ const startLogic = (overlay, phase) => {
         timerEl.textContent = timeLeft;
 
         if (timeLeft <= 3 && timeLeft > 0) {
-            playBeep(600, 0.1);
+            playBeep(2000, 0.1);
         }
 
         if (timeLeft <= 0) {
-            playBeep(880, 0.3);
+            playBeep(2700, 0.3);
 
             if (mode === 'PREP_WORK') {
                 mode = 'WORK';
