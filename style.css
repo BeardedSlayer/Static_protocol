@@ -117,6 +117,7 @@ header {
     letter-spacing: 2px;
     margin-bottom: 15px;
     color: var(--accent-color);
+    text-align: center;
 }
 
 .stats {
@@ -127,6 +128,7 @@ header {
     border-bottom: 1px solid #222;
     padding-bottom: 15px;
     margin-bottom: 15px;
+    gap: 5px;
 }
 
 .start-btn {

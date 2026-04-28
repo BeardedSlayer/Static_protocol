@@ -261,7 +261,7 @@ const renderExercise = (parent) => {
     const exCard = document.createElement('div');
     exCard.className = 'exercise-card';
     exCard.innerHTML = `
-        <div class="ex-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div class="ex-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px;">
             <button id="prev-ex" class="nav-btn" ${appState.currentExerciseIndex === 0 ? 'disabled' : ''}> < </button>
             <span style="font-size: 0.7rem; color: #555;">УПРАЖНЕНИЕ ${appState.currentExerciseIndex + 1} / 5</span>
             <button id="next-ex" class="nav-btn" ${appState.currentExerciseIndex === 4 ? 'disabled' : ''}> > </button>
