@@ -1,3 +1,5 @@
+let isTimerRunning = false;
+
 const osContainer = document.getElementById('os-container');
 const appState = {
     currentWeek: Number(localStorage.getItem('lastWeek')) || 1,
@@ -83,6 +85,7 @@ const renderSidebar = () => {
 
         weekBtn.addEventListener("click", () => {
             appState.currentWeek = i;
+            localStorage.setItem('lastWeek', i);
             renderMainContent();
             renderSidebar();
             sidebar.classList.remove('active');
@@ -289,27 +292,60 @@ const renderExercise = (parent) => {
     parent.appendChild(exCard);
 };
 
-const renderTimerOverlay = (currentPhase, exercise) => {
+const renderTimerOverlay = (currentPhase, exercise, resumeTime = null, resumeMode = null, resumeSet = null) => {
+    isTimerRunning = true;
     const overlay = document.createElement('div');
     overlay.className = 'timer-overlay';
-    overlay.style.cssText = `position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000;`;
+
+    let currentSet = resumeSet || 1;
+    let timeLeft = resumeTime !== null ? resumeTime : 5;
+    let mode = resumeMode || 'PREP_WORK';
+
+    if (mode === 'WORK') overlay.style.background = '#1a4a1a';
+    else if (mode === 'REST') overlay.style.background = '#4a1a1a';
+    else overlay.style.background = 'black';
+
+    overlay.style.cssText += `position: fixed; top: 0; left: 0; width: 100%; height: 100%; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; transition: background 0.5s;`;
+
     overlay.innerHTML = `
         <h2 id="overlay-ex-name" style="font-size: 2rem; text-align: center">${exercise.name}</h2>
-        <p id="overlay-status" style="font-size: 1.5rem; color: #aaa;">Приготовься</p>
-        <h1 id="overlay-timer" style="font-size: 30vw;">5</h1>
-        <p id="overlay-sets" style="font-size: 1.5rem;">Подход: 1 / ${currentPhase.sets}</p>
-        <button id="stop-workout" style="margin-top: 20px; padding: 10px 20px; background: #444; color: white; border: none;">ПРЕРВАТЬ</button>
+        <p id="overlay-status" style="font-size: 1.5rem; color: #aaa;">${mode === 'WORK' ? 'РАБОТАЙ!' : mode === 'REST' ? 'ОТДЫХ' : 'Приготовься'}</p>
+        <h1 id="overlay-timer" style="font-size: 30vw;">${timeLeft}</h1>
+        <p id="overlay-sets" style="font-size: 1.5rem;">Подход: ${currentSet} / ${currentPhase.sets}</p>
+        <button id="stop-workout" style="margin-top: 20px; padding: 10px 20px; background: #444; color: white; border: none; cursor: pointer;">ПРЕРВАТЬ</button>
     `;
     document.body.appendChild(overlay);
 
-    let currentSet = 1, timeLeft = 5, mode = 'PREP_WORK';
-    const timerEl = overlay.querySelector('#overlay-timer'), statusEl = overlay.querySelector('#overlay-status'),
-        setsEl = overlay.querySelector('#overlay-sets');
+    const timerEl = overlay.querySelector('#overlay-timer');
+    const statusEl = overlay.querySelector('#overlay-status');
+    const setsEl = overlay.querySelector('#overlay-sets');
+
+    const stopEverything = () => {
+        clearInterval(interval);
+        isTimerRunning = false;
+        localStorage.removeItem('activeTimerSession');
+    };
+
+    const saveTimerSession = (time, m, set) => {
+        const session = {
+            endTime: Date.now() + (time * 1000),
+            mode: m,
+            set: set,
+            exerciseIndex: appState.currentExerciseIndex,
+            week: appState.currentWeek
+        };
+        localStorage.setItem('activeTimerSession', JSON.stringify(session));
+    };
+
+    saveTimerSession(timeLeft, mode, currentSet);
 
     const interval = setInterval(() => {
         timeLeft--;
+        if (timeLeft < 0) timeLeft = 0;
+
         timerEl.textContent = timeLeft;
         if (timeLeft <= 3 && timeLeft > 0) playBeep(2000, 0.1);
+
         if (timeLeft <= 0) {
             playBeep(2700, 0.3);
             if (mode === 'PREP_WORK') {
@@ -336,7 +372,7 @@ const renderTimerOverlay = (currentPhase, exercise) => {
                     setsEl.textContent = `Подход: ${currentSet} / ${currentPhase.sets}`;
                     overlay.style.background = 'black';
                 } else {
-                    clearInterval(interval);
+                    stopEverything();
                     overlay.remove();
                     if (appState.currentExerciseIndex < appState.workoutData.exercises.length - 1) {
                         appState.currentExerciseIndex++;
@@ -347,13 +383,18 @@ const renderTimerOverlay = (currentPhase, exercise) => {
                         appState.currentExerciseIndex = 0;
                         localStorage.setItem('currentExIndex', 0);
                     }
+                    return;
                 }
             }
+            saveTimerSession(timeLeft, mode, currentSet);
         }
     }, 1000);
+
     overlay.querySelector('#stop-workout').onclick = () => {
-        clearInterval(interval);
+        stopEverything();
         overlay.remove();
+        renderMainContent();
+        renderSidebar();
     };
 };
 
@@ -381,10 +422,25 @@ window.onload = () => {
         i++;
         if (i === logs.length) {
             clearInterval(interval);
-            setTimeout(() => {
+
+            const savedSession = JSON.parse(localStorage.getItem('activeTimerSession'));
+
+            if (savedSession && savedSession.endTime > Date.now()) {
+                document.getElementById('boot-screen').style.display = 'none';
+                header.style.display = 'flex';
+                appShell.style.display = 'flex';
+
+                const phase = appState.workoutData.phases.find(p => p.weeks.includes(savedSession.week));
+                const ex = appState.workoutData.exercises[savedSession.exerciseIndex];
+
+                const remainingTime = Math.round((savedSession.endTime - Date.now()) / 1000);
+
+                renderTimerOverlay(phase, ex, remainingTime, savedSession.mode, savedSession.set);
+            } else {
                 document.getElementById('boot-screen').style.display = 'none';
                 document.getElementById('module-selector').style.display = 'flex';
-            }, 800);
+                localStorage.removeItem('activeTimerSession');
+            }
         }
     }, 300);
 };
